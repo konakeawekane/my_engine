@@ -47,14 +47,10 @@ impl Vec{
     }
 
     pub fn rotate_around_orgin(vector: Vec, angles: Vec) -> Vec{
-        new(vector)
+        vector
     }
 
     pub fn project(vector: Vec, ) -> Vec{
-        Vec{
-            x: ,
-            y: ,
-            z: 
-        }
+       vector
     }
 }
