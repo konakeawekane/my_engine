@@ -2,15 +2,20 @@ mod camera;
 mod obj;
 mod math;
 mod color;
+mod pen;
 
-use minifb::{Key, Window, WindowOptions};
+use minifb::{Key, Window, WindowOptions, ScaleMode};
 use camera::Camera;
 use color::Color;
+use pen::Pen;
 
 const WIDTH: usize = 640;
 const HEIGHT: usize = 360;
 
+const drawer: Pen = Pen::new(HEIGHT, WIDTH);
+
 const RED: Color = Color::new(255,0,0);
+const BLACK: Color = Color::new(0,0,0);
 
 fn main() {
     let mut cam = Camera::new(
@@ -28,18 +33,43 @@ fn main() {
         "Test - ESC to exit",
         WIDTH,
         HEIGHT,
-        WindowOptions::default(),
+        WindowOptions {
+            resize: true,
+            scale_mode: ScaleMode::Stretch,
+            ..WindowOptions::default()
+        }
     )
     .unwrap();
 
     window.set_target_fps(60);
 
-    let x = 30;
-    let y = 30;
+    let mut x: f32 = 150.0;
+    let mut y: f32 = 150.0;
 
     while window.is_open() && !window.is_key_down(Key::Escape) {
 
-        draw_line(&mut buffer, WIDTH, 50.0, 20.0, 200.0, 150.0, RED.to_u32());
+        // screen clear
+        for pixel in &mut buffer{
+            *pixel = BLACK.to_u32();
+        }
+
+        drawer.draw_line(&mut buffer, 50.0, 20.0, x, y, RED.to_u32());
+
+        if(window.is_key_down(Key::W)){
+            y -= 1.0;
+        }
+
+        if(window.is_key_down(Key::A)){
+            x -= 1.0;
+        }
+
+        if(window.is_key_down(Key::S)){
+            y += 1.0;
+        }
+
+        if(window.is_key_down(Key::D)){
+            x += 1.0;
+        }
 
         window
             .update_with_buffer(&buffer, WIDTH, HEIGHT)
@@ -48,41 +78,3 @@ fn main() {
 
 }
 
-fn set_pixel(
-    buffer: &mut Vec<u32>,
-    x: usize,
-    y: usize,
-    color: u32,
-) {
-    buffer[x + y * WIDTH] = color;
-}
-
-fn draw_line(
-    buffer: &mut Vec<u32>,
-    width: usize,
-    x0: f32,
-    y0: f32,
-    x1: f32,
-    y1: f32,
-    color: u32,
-) {
-    let dx = x1 - x0;
-    let dy = y1 - y0;
-
-    let steps = dx.abs().max(dy.abs());
-
-    let x_increment = dx / steps;
-    let y_increment = dy / steps;
-
-    let mut x = x0;
-    let mut y = y0;
-
-    for _ in 0..steps as usize {
-        let index = x as usize + y as usize * width;
-
-        buffer[index] = color;
-
-        x += x_increment;
-        y += y_increment;
-    }
-}

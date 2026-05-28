@@ -6,9 +6,9 @@ pub struct Tri{
     pub id3: i32
 }
 
-pub struct Obj<const vert_count: usize, const tris_count: usize>{
-    pub verts: [Vec; vert_count],
-    pub tris: [Tri; tris_count],
+pub struct Obj<const VERT_COUNT: usize, const TRIS_COUNT: usize>{
+    pub verts: [Vec; VERT_COUNT],
+    pub tris: [Tri; TRIS_COUNT],
     pub position: Vec,
     pub rotation: Vec,
     pub scale: Vec
@@ -24,8 +24,8 @@ impl Tri{
     }
 }
 
-impl<const vert_count: usize, const tris_count: usize> Obj<vert_count, tris_count>{
-    pub fn new(verts: [Vec; vert_count], tris: [Tri; tris_count], position: Vec, rotation: Vec, scale: Vec) -> Self{
+impl<const VERT_COUNT: usize, const TRIS_COUNT: usize> Obj<VERT_COUNT, TRIS_COUNT>{
+    pub fn new(verts: [Vec; VERT_COUNT], tris: [Tri; TRIS_COUNT], position: Vec, rotation: Vec, scale: Vec) -> Self{
         Self{
             verts: verts,
             tris: tris,
@@ -33,5 +33,11 @@ impl<const vert_count: usize, const tris_count: usize> Obj<vert_count, tris_coun
             rotation: rotation,
             scale: scale
         }
+    }
+
+    pub fn edges(&self) -> [Vec; 1]{
+        [Vec{
+            x:1.0,y:1.0,z:1.0
+        }]
     }
 }
