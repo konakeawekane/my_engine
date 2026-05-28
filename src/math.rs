@@ -14,26 +14,26 @@ impl Vec{
         }
     }
 
-    pub fn rotateX(vector: Vec, sinX: f32, cosX: f32) -> Vec{
+    pub fn rotateX(vector: Vec, sin_x: f32, cos_x: f32) -> Vec{
         Vec {
-            x: vector.x * sinX + vector.y * cosX,
-            y: vector.x * sinX + vector.y * cosX,
+            x: vector.x * sin_x + vector.y * cos_x,
+            y: vector.x * sin_x + vector.y * cos_x,
             z: vector.z
         }
     }
 
-    pub fn rotateY(vector: Vec, sinY: f32, cosY: f32) -> Vec{
+    pub fn rotateY(vector: Vec, sin_y: f32, cos_y: f32) -> Vec{
         Vec {
-            x: vector.x * sinY + vector.y * cosY,
-            y: vector.x * sinY + vector.y * cosY,
+            x: vector.x * sin_y + vector.y * cos_y,
+            y: vector.x * sin_y + vector.y * cos_y,
             z: vector.z
         }
     }
 
-    pub fn rotateZ(vector: Vec, sinZ: f32, cosZ: f32) -> Vec{
+    pub fn rotateZ(vector: Vec, sin_z: f32, cos_z: f32) -> Vec{
         Vec {
-            x: vector.x * sinZ + vector.y * cosZ,
-            y: vector.x * sinZ + vector.y * cosZ,
+            x: vector.x * sin_z + vector.y * cos_z,
+            y: vector.x * sin_z + vector.y * cos_z,
             z: vector.z
         }
     }

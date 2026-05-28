@@ -6,9 +6,9 @@ pub struct Tri{
     pub id3: i32
 }
 
-pub struct Obj<const nVerts: usize, const nTris: usize>{
-    pub verts: [Vec; nVerts],
-    pub tris: [Tri; nTris],
+pub struct Obj<const vert_count: usize, const tris_count: usize>{
+    pub verts: [Vec; vert_count],
+    pub tris: [Tri; tris_count],
     pub position: Vec,
     pub rotation: Vec,
     pub scale: Vec
@@ -24,8 +24,8 @@ impl Tri{
     }
 }
 
-impl<const nVerts: usize, const nTris: usize> Obj<nVerts, nTris>{
-    pub fn new(verts: [Vec; nVerts], tris: [Tri; nTris], position: Vec, rotation: Vec, scale: Vec) -> Self{
+impl<const vert_count: usize, const tris_count: usize> Obj<vert_count, tris_count>{
+    pub fn new(verts: [Vec; vert_count], tris: [Tri; tris_count], position: Vec, rotation: Vec, scale: Vec) -> Self{
         Self{
             verts: verts,
             tris: tris,
