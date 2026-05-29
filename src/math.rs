@@ -1,5 +1,6 @@
 use std::f32::consts::PI;
 
+#[derive(Clone, Copy)]
 pub struct Vec{
     pub x: f32,
     pub y: f32,
@@ -8,7 +9,7 @@ pub struct Vec{
 
 impl Vec{
 
-    pub fn new(x: f32, y: f32, z: f32) -> Self{
+    pub const fn new(x: f32, y: f32, z: f32) -> Self{
         Self{
             x: x,
             y: y,
@@ -29,6 +30,14 @@ impl Vec{
             x: vector1.x - vector2.x,
             y: vector1.y - vector2.y,
             z: vector1.z - vector2.z 
+        }
+    }
+
+    pub fn scale(vector1: Vec, scale: f32) -> Vec{
+        Vec {
+            x: vector1.x * scale,
+            y: vector1.y * scale,
+            z: vector1.z * scale 
         }
     }
 
@@ -56,11 +65,11 @@ impl Vec{
         }
     }
 
-    pub fn scale(vector: Vec, size: f32) -> Vec{
+    pub fn scale_vec(vector: Vec, size: Vec) -> Vec{
         Vec{
-            x: vector.x * size,
-            y: vector.y * size,
-            z: vector.z * size
+            x: vector.x * size.x,
+            y: vector.y * size.y,
+            z: vector.z * size.z
         }
     }
 

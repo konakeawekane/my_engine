@@ -1,9 +1,9 @@
 use crate::math::Vec;
 
 pub struct Tri{
-    pub id1: i32,
-    pub id2: i32,
-    pub id3: i32
+    pub id1: usize,
+    pub id2: usize,
+    pub id3: usize
 }
 
 pub struct Obj<const VERT_COUNT: usize, const TRIS_COUNT: usize>{
@@ -15,7 +15,7 @@ pub struct Obj<const VERT_COUNT: usize, const TRIS_COUNT: usize>{
 }
 
 impl Tri{
-    pub fn new(v1: i32, v2: i32, v3: i32) -> Self{
+    pub const fn new(v1: usize, v2: usize, v3: usize) -> Self{
         Self{
             id1: v1,
             id2: v2,
@@ -25,7 +25,7 @@ impl Tri{
 }
 
 impl<const VERT_COUNT: usize, const TRIS_COUNT: usize> Obj<VERT_COUNT, TRIS_COUNT>{
-    pub fn new(verts: [Vec; VERT_COUNT], tris: [Tri; TRIS_COUNT], position: Vec, rotation: Vec, scale: Vec) -> Self{
+    pub const fn new(verts: [Vec; VERT_COUNT], tris: [Tri; TRIS_COUNT], position: Vec, rotation: Vec, scale: Vec) -> Self{
         Self{
             verts: verts,
             tris: tris,
@@ -33,11 +33,5 @@ impl<const VERT_COUNT: usize, const TRIS_COUNT: usize> Obj<VERT_COUNT, TRIS_COUN
             rotation: rotation,
             scale: scale
         }
-    }
-
-    pub fn edges(&self) -> [Vec; 1]{
-        [Vec{
-            x:1.0,y:1.0,z:1.0
-        }]
     }
 }

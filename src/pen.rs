@@ -14,7 +14,7 @@ impl Pen{
 
     pub fn valid_buffer_index(&self, x: usize, y:usize) -> bool{
 
-        0 <= x && x < self.buffer_width && 0 <= y && y < self.buffer_height
+        x < self.buffer_width && y < self.buffer_height
     }
 
     pub fn set_pixel(
@@ -24,8 +24,8 @@ impl Pen{
         y: usize,
         color: u32,
     ) {
-        if(Self::valid_buffer_index(self, x, y)){
-            buffer[x + y * self.buffer_width] = color;
+        if Self::valid_buffer_index(self, x + (self.buffer_width / 2), y + (self.buffer_height / 2)){
+            buffer[(x + (self.buffer_width / 2)) + (y + (self.buffer_height / 2)) * self.buffer_width] = color;
         }
     }
 

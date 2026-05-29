@@ -14,10 +14,10 @@ impl Camera{
         }
     }
 
-    pub fn translate(&mut self, x: f32, y: f32, z: f32){
-        self.position.x += x;
-        self.position.y += y;
-        self.position.z += z;
+    pub fn translate(&mut self, movement: Vec){
+        self.position.x += movement.x;
+        self.position.y += movement.y;
+        self.position.z += movement.z;
     }
 
     pub fn rotate(&mut self, yaw: f32, pitch: f32, roll: f32){
@@ -28,5 +28,21 @@ impl Camera{
 
     pub fn set_zoom(&mut self, fov:f32){
         self.fov = fov;
+    }
+
+    pub fn forward(&self) -> Vec{
+        Vec{
+            x: self.rotation.x.sin(),
+            y: 0.0,
+            z: self.rotation.x.cos()
+        }
+    }
+
+    pub fn right(&self) -> Vec{
+        Vec{
+            x: self.rotation.x.cos(),
+            y: 0.0,
+            z: -self.rotation.x.sin()
+        }
     }
 }
