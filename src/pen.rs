@@ -24,11 +24,15 @@ impl Pen{
         y: usize,
         color: u32,
     ) {
+
+        // needs to be refactored outside of the set pixel check to increase performance
         if Self::valid_buffer_index(self, x + (self.buffer_width / 2), y + (self.buffer_height / 2)){
             buffer[(x + (self.buffer_width / 2)) + (y + (self.buffer_height / 2)) * self.buffer_width] = color;
         }
     }
 
+
+    // need to be refactored into a real DDA algorithm
     pub fn draw_line(
         &self,
         buffer: &mut Vec<u32>,

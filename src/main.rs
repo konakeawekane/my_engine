@@ -10,8 +10,8 @@ use color::Color;
 use pen::Pen;
 use obj::{Tri, Obj};
 
-const WIDTH: usize = 640;
-const HEIGHT: usize = 360;
+const WIDTH: usize = 1080;
+const HEIGHT: usize = 720;
 
 const DRAWER: Pen = Pen::new(HEIGHT, WIDTH);
 
