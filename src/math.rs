@@ -43,23 +43,23 @@ impl Vec{
 
     pub fn rotate_x(vector: Vec, sin_x: f32, cos_x: f32) -> Vec{
         Vec {
-            x: vector.x * cos_x + vector.z * sin_x,
-            y: vector.y,
-            z: vector.x * sin_x + vector.z * cos_x
+            x: vector.x,
+            y: vector.y * cos_x - vector.z * sin_x,
+            z: vector.y * sin_x + vector.z * cos_x
         }
     }
 
     pub fn rotate_y(vector: Vec, sin_y: f32, cos_y: f32) -> Vec{
         Vec {
-            x: vector.x,
-            y: vector.y * cos_y + vector.z * sin_y,
-            z: vector.z * cos_y + vector.y * sin_y
+            x: vector.x * cos_y + vector.z * sin_y,
+            y: vector.y,
+            z: -vector.x * sin_y + vector.z * cos_y
         }
     }
 
     pub fn rotate_z(vector: Vec, sin_z: f32, cos_z: f32) -> Vec{
         Vec {
-            x: vector.x * cos_z + vector.y * sin_z,
+            x: vector.x * cos_z - vector.y * sin_z,
             y: vector.y * sin_z + vector.x * cos_z,
             z: vector.z
         }
@@ -91,7 +91,7 @@ impl Vec{
     }
 
     pub fn project(vector: Vec, view_position: Vec, view_rotation: Vec, view_perspective: f32) -> Vec{
-       let rotated = Self::rotate_around_orgin(Self::sub(vector, view_position), view_rotation);
+       let rotated = Self::rotate_around_orgin(Self::sub(vector, view_position), Self::scale(view_rotation, -1.0));
        Vec{
             x: rotated.x * view_perspective / rotated.z,
             y: rotated.y * view_perspective / rotated.z,

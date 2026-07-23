@@ -1,6 +1,6 @@
 # Rust CPU 3D Graphics
 
-This Rust project renders a 3D scene using custom 3D rendering techniques written from scratch. Displays onto a windowed frame buffer using the minifb crate.
+This Rust project draws a 3D wireframe scene using a custom renderer. Displays render on a windowed frame buffer using the minifb crate.
 
 ## Features
 - 3D triangle rendering with perspective projection (incomplete)
@@ -21,6 +21,7 @@ This Rust project renders a 3D scene using custom 3D rendering techniques writte
 ## Controls
 - W/S: Move forward/backward
 - A/D: Strafe left/right
+- Q/E: Look left/right
 - ESC: Exit
 
 ## Project Structure

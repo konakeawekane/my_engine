@@ -60,6 +60,7 @@ fn main() {
 
     let mut forward_input;
     let mut right_input;
+    let mut horizontal_look_input;
 
     while window.is_open() && !window.is_key_down(Key::Escape) {
 
@@ -96,14 +97,17 @@ fn main() {
             vert2 = math::Vec::project(vert2, cam.position, cam.rotation, cam.fov);
             vert3 = math::Vec::project(vert3, cam.position, cam.rotation, cam.fov);
 
-            DRAWER.draw_line(&mut buffer, vert1.x, vert1.y, vert2.x, vert2.y, RED.to_u32());
-            DRAWER.draw_line(&mut buffer, vert2.x, vert2.y, vert3.x, vert3.y, RED.to_u32());
-            DRAWER.draw_line(&mut buffer, vert3.x, vert3.y, vert1.x, vert1.y, RED.to_u32());
+            if(!(vert1.z < 1.0 || vert2.z < 1.0 || vert3.z < 1.0)){
+                DRAWER.draw_line(&mut buffer, vert1.x, vert1.y, vert2.x, vert2.y, RED.to_u32());
+                DRAWER.draw_line(&mut buffer, vert2.x, vert2.y, vert3.x, vert3.y, RED.to_u32());
+                DRAWER.draw_line(&mut buffer, vert3.x, vert3.y, vert1.x, vert1.y, RED.to_u32());
+            }
 
         }
 
         forward_input = 0.0;
         right_input = 0.0;
+        horizontal_look_input = 0.0;
 
         if window.is_key_down(Key::W){
             forward_input = 1.0;
@@ -121,10 +125,18 @@ fn main() {
             right_input = 1.0;
         }
 
+        if window.is_key_down(Key::Q){
+            horizontal_look_input = -1.0;
+        }
+
+        if window.is_key_down(Key::E){
+            horizontal_look_input = 1.0;
+        }
+
         cam.translate(math::Vec::scale(cam.forward(), forward_input));
         cam.translate(math::Vec::scale(cam.right(), right_input));
 
-        // cam.rotate(forward_input, right_input, 0.0);
+        cam.rotate(forward_input, right_input, 0.0);
 
         window
             .update_with_buffer(&buffer, WIDTH, HEIGHT)
