@@ -16,6 +16,7 @@ const HEIGHT: usize = 720;
 const DRAWER: Pen = Pen::new(HEIGHT, WIDTH);
 
 const RED: Color = Color::new(255,0,0);
+const BLUE: Color = Color::new(0,0,255);
 const BLACK: Color = Color::new(0,0,0);
 
 const VERTS: [math::Vec; 3] = [
@@ -40,7 +41,9 @@ fn main() {
     let mut cam = Camera::new(
         math::Vec::new(0.0,0.0,0.0),
         math::Vec::new(0.0,0.0,0.0),
-        300.0);
+        300.0,
+        200.0
+    );
 
     let mut buffer: Vec<u32> = vec![0; WIDTH * HEIGHT];
 
@@ -60,6 +63,7 @@ fn main() {
 
     let mut forward_input;
     let mut right_input;
+    let mut up_input;
     let mut horizontal_look_input;
 
     while window.is_open() && !window.is_key_down(Key::Escape) {
@@ -93,9 +97,9 @@ fn main() {
             
             // __Next rotate into camera space via perspective projection__
 
-            vert1 = math::Vec::project(vert1, cam.position, cam.rotation, cam.fov);
-            vert2 = math::Vec::project(vert2, cam.position, cam.rotation, cam.fov);
-            vert3 = math::Vec::project(vert3, cam.position, cam.rotation, cam.fov);
+            vert1 = math::Vec::project(vert1, cam.position, cam.rotation, cam.h_fov, cam.v_fov);
+            vert2 = math::Vec::project(vert2, cam.position, cam.rotation, cam.h_fov, cam.v_fov);
+            vert3 = math::Vec::project(vert3, cam.position, cam.rotation, cam.h_fov, cam.v_fov);
 
             if(!(vert1.z < 1.0 || vert2.z < 1.0 || vert3.z < 1.0)){
                 DRAWER.draw_line(&mut buffer, vert1.x, vert1.y, vert2.x, vert2.y, RED.to_u32());
@@ -105,8 +109,11 @@ fn main() {
 
         }
 
+        DRAWER.draw_line(&mut buffer, 0.0, 0.0, 100.0, 100.0, BLUE.to_u32());
+
         forward_input = 0.0;
         right_input = 0.0;
+        up_input = 0.0;
         horizontal_look_input = 0.0;
 
         if window.is_key_down(Key::W){
@@ -126,17 +133,26 @@ fn main() {
         }
 
         if window.is_key_down(Key::Q){
-            horizontal_look_input = -1.0;
+            up_input = -1.0;
         }
 
         if window.is_key_down(Key::E){
-            horizontal_look_input = 1.0;
+            up_input = 1.0;
+        }
+
+        if window.is_key_down(Key::Left){
+            horizontal_look_input = -0.01;
+        }
+
+        if window.is_key_down(Key::Right){
+            horizontal_look_input = 0.01;
         }
 
         cam.translate(math::Vec::scale(cam.forward(), forward_input));
         cam.translate(math::Vec::scale(cam.right(), right_input));
+        cam.translate(math::Vec::scale(cam.up(), up_input));
 
-        cam.rotate(forward_input, right_input, 0.0);
+        cam.rotate(horizontal_look_input, 0.0, 0.0);
 
         window
             .update_with_buffer(&buffer, WIDTH, HEIGHT)
@@ -144,4 +160,3 @@ fn main() {
     }
 
 }
-

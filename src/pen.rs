@@ -24,10 +24,9 @@ impl Pen{
         y: usize,
         color: u32,
     ) {
-
         // needs to be refactored outside of the set pixel check to increase performance
-        if Self::valid_buffer_index(self, x + (self.buffer_width / 2), y + (self.buffer_height / 2)){
-            buffer[(x + (self.buffer_width / 2)) + (y + (self.buffer_height / 2)) * self.buffer_width] = color;
+        if Self::valid_buffer_index(self, x, y){
+            buffer[x + y * self.buffer_width] = color;
         }
     }
 
@@ -42,6 +41,14 @@ impl Pen{
         y1: f32,
         color: u32,
     ) {
+        let half_width = (self.buffer_width / 2) as f32;
+        let half_height = (self.buffer_height / 2) as f32;
+
+        let x0 = x0 * half_width + half_width;
+        let y0 = y0 * half_height + half_height;
+        let x1 = x1 * half_width + half_width;
+        let y1 = y1 * half_height + half_height;
+
         let dx = x1 - x0;
         let dy = y1 - y0;
 

@@ -2,15 +2,17 @@ use crate::math::Vec;
 pub struct Camera{
     pub position: Vec,
     pub rotation: Vec,
-    pub fov : f32
+    pub h_fov : f32,
+    pub v_fov : f32
 }
 
 impl Camera{
-    pub fn new(position: Vec, rotation: Vec, fov: f32) -> Self {
+    pub fn new(position: Vec, rotation: Vec, h_fov: f32, v_fov: f32) -> Self {
         Self { 
             position: position,
             rotation: rotation,
-            fov: fov 
+            h_fov: h_fov,
+            v_fov: v_fov
         }
     }
 
@@ -26,8 +28,14 @@ impl Camera{
         self.rotation.z += roll;
     }
 
-    pub fn set_zoom(&mut self, fov:f32){
-        self.fov = fov;
+    pub fn set_zoom(&mut self, zoom: f32){
+        self.h_fov = self.h_fov * zoom;
+        self.v_fov = self.v_fov * zoom;
+    }
+
+    pub fn set_fov(&mut self, h_fov: f32, aspect_ratio: f32){
+        self.h_fov = h_fov;
+        self.v_fov = 2.0 * ((h_fov / 2.0).tan() / aspect_ratio).atan()
     }
 
     pub fn forward(&self) -> Vec{
@@ -43,6 +51,14 @@ impl Camera{
             x: self.rotation.x.cos(),
             y: 0.0,
             z: -self.rotation.x.sin()
+        }
+    }
+
+    pub fn up(&self) -> Vec{
+        Vec{
+            x: 0.0,
+            y: 0.0,
+            z: 1.0
         }
     }
 }
