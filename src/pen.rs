@@ -45,9 +45,9 @@ impl Pen{
         let half_height = (self.buffer_height / 2) as f32;
 
         let x0 = x0 * half_width + half_width;
-        let y0 = y0 * half_height + half_height;
+        let y0 = half_height - y0 * half_height;
         let x1 = x1 * half_width + half_width;
-        let y1 = y1 * half_height + half_height;
+        let y1 = half_height - y1 * half_height;
 
         let dx = x1 - x0;
         let dy = y1 - y0;

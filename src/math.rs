@@ -1,5 +1,3 @@
-use std::f32::consts::PI;
-
 #[derive(Clone, Copy)]
 pub struct Vec{
     pub x: f32,
@@ -73,9 +71,34 @@ impl Vec{
         }
     }
 
+    pub fn unrotate_around_orgin(vector: Vec, angle: Vec) -> Vec{
+        let rad = Vec::new(
+            -angle.x.to_radians(),
+            -angle.y.to_radians(),
+            -angle.z.to_radians()
+        );
+
+        Self::rotate_x(
+            Self::rotate_y(
+                Self::rotate_z(
+                        vector,
+                        rad.z.sin(),
+                        rad.z.cos()),
+                rad.y.sin(),
+                rad.y.cos()
+            ),
+            rad.x.sin(),
+            rad.x.cos()
+        )
+    }
+
     pub fn rotate_around_orgin(vector: Vec, angle: Vec) -> Vec{
-        let div = PI/180.0;
-        let rad = Vec::new(angle.x * div, angle.y * div, angle.z * div);
+        let rad = Vec::new(
+            angle.x.to_radians(),
+            angle.y.to_radians(),
+            angle.z.to_radians()
+        );
+
         Self::rotate_z(
             Self::rotate_y(
                 Self::rotate_x(
@@ -91,7 +114,10 @@ impl Vec{
     }
 
     pub fn project(vector: Vec, view_position: Vec, view_rotation: Vec, horizontal_view_perspective: f32, vertical_view_perspective: f32) -> Vec{
-       let rotated = Self::rotate_around_orgin(Self::sub(vector, view_position), Self::scale(view_rotation, -1.0));
+       let mut rotated = Self::unrotate_around_orgin(Self::sub(vector, view_position), view_rotation);
+       if rotated.z < 0.01 {
+        rotated.z = 0.01
+       }
        Vec{
             x: rotated.x * horizontal_view_perspective / rotated.z,
             y: rotated.y * vertical_view_perspective / rotated.z,
